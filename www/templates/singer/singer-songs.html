@@ -1,0 +1,24 @@
+<ion-view view-title="My Tunes">
+  <ion-content>
+	<ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="item in ovitems" type="item-text-wrap" href="#/singer/regsongs/{{item.id}}">
+        
+        <h2>{{item.item}}</h2>
+        <!--p>{{item.item}}</p>-->
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="song in songs" type="item-text-wrap" href="#/singer/songs/{{song.id}}">
+        <img ng-src="{{song.face}}">
+        <h2>{{song.name}}</h2>
+        <p>{{song.artist}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(song)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

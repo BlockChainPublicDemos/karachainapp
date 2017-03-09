@@ -1,0 +1,24 @@
+<ion-view view-title=Performers">
+  <ion-content>
+	<ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="item in ovitems" type="item-text-wrap" href="#/evtmgr/singer/{{item.id}}">
+        
+        <h2>{{item.item}}</h2>
+        <!--p>{{item.item}}</p>-->
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="faq in faqs" type="item-text-wrap" href="#/evtmgr/singer/{{singer.id}}">
+        <img ng-src="{{singer.face}}">
+        <h2>{{singer.name}}</h2>
+        <p>{{singer.lastText}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(singer)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,21 @@
+<ion-view view-title="New Performance">
+ <ion-content class="padding">
+   <form name="myform" ng-submit="registorsong()">
+     
+          <label class="item item-input">
+           <input type="text" placeholder="performance name" ng-model="data.performancename">
+          </label>
+          <label class="item item-input">
+              <input type="text" placeholder="performance venue" ng-model="data.performancevenue">
+          </label>          
+		 <label class="item item-input">
+			   <input type="text" placeholder="performance date" ng-model="data.performancedate">
+		  </label>
+      <button class="button button-block button-calm" ng-click="registersong()">Register Performance</button>
+      <input type="reset" value="Clear" />
+	</form>
+	
+ </ion-content>
+
+</ion-view>
+	

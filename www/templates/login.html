@@ -1,0 +1,27 @@
+<ion-view view-title="Karachain Login" name="login-view">
+  <ion-content class="padding">
+  <form name="loginform" ng-submit="login()">
+      <div class="list list-inset">
+          <label class="item item-input">
+              <input type="text" placeholder="Username" ng-model="data.username">
+          </label>
+          <label class="item item-input">
+              <input type="password" placeholder="Password" ng-model="data.password">
+          </label>
+          <label class="item item-input">
+            <!--<ion-checkbox ng-model="isChecked">Checkbox Label</ion-checkbox>-->
+            </label>
+             <label class="item item-input">
+             <ion-radio ng-model="data.role" ng-value="'singer'">Singer</ion-radio>
+              <ion-radio ng-model="data.role" ng-value="'visitor'">Visitor</ion-radio>
+               <ion-radio ng-model="data.role" ng-value="'evtmgr'">Event Manager</ion-radio>
+             </label>
+             </label>
+      </div>
+  </form>
+        <button class="button button-block button-calm" ng-click="login()">Login</button> 
+       <button ion-button color="light" clear ng-click="goregister()">Register</button>
+	   <!--  <img ng-src="../img/Karachain.png" width="50%"> -->
+	  
+  </ion-content>
+</ion-view>
