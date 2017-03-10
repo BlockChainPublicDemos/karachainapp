@@ -59,8 +59,7 @@ angular.module('starter.services', ['ngCookies'])
             return promise;
         }
     }
-})
-.service('SingerService', function($q) {
+}).service('SingerService', function($q) {
     return {
         registerSinger: function(name, pw) {
             var deferred = $q.defer();
@@ -84,7 +83,7 @@ angular.module('starter.services', ['ngCookies'])
             }
             return promise;
         },
-        registerSong: function(data) {
+        registerPerformance: function(performancename, performancevenu, performancedate, data) {
             var deferred = $q.defer();
             var promise = deferred.promise;
             this.data = data;
@@ -141,7 +140,7 @@ angular.module('starter.services', ['ngCookies'])
             
             websocket.onopen = function(evt) {
             	var pagedata = that.data;
-            	var msgCreate = '{"type" : "voteperformance","songid":"'+ pagedata.songid+'", "rateing":"'+ pagedata.rating+'","singer": "bob","v":1}';
+            	var msgCreate = '{"type" : "voteperformance","songid":"'+ pagedata.songid+'", "rating":"'+ pagedata.rating+'","singer": "bob","v":1}';
                 console.log("ws opened "+msgCreate);
                 websocket.send(msgCreate);
               };
@@ -298,11 +297,13 @@ angular.module('starter.services', ['ngCookies'])
   var songs = [{
     id: 0,
     name: 'Love Shack',
+    bcId: 'kc846908',
     artist: 'Cosmic Thing',
     face: 'img/loveshack.jpeg'
   }, {
     id: 1,
     name: 'Sweet Caroline',
+    bcId: "kc846908",
     artist: "Neil Diamond",
     face: 'img/sweetcaroline.jpeg'
   }];

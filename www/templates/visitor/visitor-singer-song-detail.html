@@ -10,8 +10,9 @@
     <p>
       {{song.artist}}
     </p>
-     <input type="hidden" value="{{song.id}}"  ng-model="data.songid">
-    <button class="button button-block button-calm" ng-click="votesong()">Vote on Performance</button>
+    <!-- <input type="hidden" ng-model="record.usersId" value="{{user.userId}}" ng-init="record.usersId=user.userId"/> -->
+     <input type="hidden" value="{{song.bcId}}"  ng-model="data.songid" ng-init="data.songid=song.bcId">
+    <button class="button button-block button-calm" ng-click="votePerformance()">Vote on Performance</button>
     <label class="item item-input">
               <input type="text" placeholder="1 to 5 => lame to awesome" ng-model="data.rating">
      </label>

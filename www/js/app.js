@@ -106,7 +106,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','m
     views: {
       'singer-songs': {
         templateUrl: 'templates/singer/singer-songs.html',
-        controller: 'SongCtrl'
+        controller: 'SingerCtrl'
       }
     }
   })
@@ -124,7 +124,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','m
       views: {
         'singer-performance': {
           templateUrl: 'templates/singer/singer-performance.html',
-          controller: 'SongCtrl'
+          controller: 'SingerCtrl'
         }
       }
     })
