@@ -6,7 +6,7 @@
 -->
 <ion-view view-title="{{song.name}}">
   <ion-content class="padding">
-    <img ng-src="{{song.face}}" style="width: 64px; height: 64px">
+    <img ng-src="{{song.face}}" style="width: 64px; height: 64px"> 
     <p>
       {{song.artist}}
     </p>
@@ -16,6 +16,8 @@
     <label class="item item-input">
               <input type="text" placeholder="1 to 5 => lame to awesome" ng-model="data.rating">
      </label>
-    <qrcode error-correction-level="{{e}}" size="{{s}}" data="{{song.name}}" download></qrcode>
+     <!--  <ion-img width="80" height="80" src="http://karachain-app-team2.mybluemix.net/getqrcode/singername/singerName/songname/songName/singerId/singerId/songId/songId/perfDate/date"></ion-img>-->
+      
+    <!--  <qrcode error-correction-level="{{e}}" size="{{s}}" data="{{song.name}}" download></qrcode>-->
   </ion-content>
 </ion-view>

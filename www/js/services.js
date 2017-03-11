@@ -106,6 +106,8 @@ angular.module('starter.services', ['ngCookies'])
               };
               websocket.onmessage = function(evt) {
             	  console.log("ws message qr code: "+evt.data);
+            	  qrpng = data.qr.data;
+            	  //this should be a PNG QR file
               }
 //            if (name == 'user' && pw == 'secret') {
 //                deferred.resolve('Welcome ' + name + '!');
