@@ -11,8 +11,10 @@
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="song in songs" type="item-text-wrap" href="#/evtmgr/singerperformances/{{song.id}}">
         <img ng-src="{{song.face}}">
-        <h2>{{song.name}}</h2>
-        <p>{{song.lastText}}</p>
+        <p>{{song.name}}<p>
+        <p>{{song.artist}}</p>
+        <label>Votes:<p>{{song.votes}}</p></label>
+         <img width="100" height="100" ng-src="http://karachain-app-team2.mybluemix.net/getqrcode/singername/{{song.artist}}/songname/{{song.name}}/singerId/singerId/songId/songId/perfDate/date"/>
         <i class="icon ion-chevron-right icon-accessory"></i>
 
         <ion-option-button class="button-assertive" ng-click="offer(song)">

@@ -301,12 +301,14 @@ angular.module('starter.services', ['ngCookies'])
     name: 'Love Shack',
     bcId: 'kc846908',
     artist: 'Cosmic Thing',
+    votes: '26',
     face: 'img/loveshack.jpeg'
   }, {
     id: 1,
     name: 'Sweet Caroline',
     bcId: "kc846908",
     artist: "Neil Diamond",
+    votes: '45',
     face: 'img/sweetcaroline.jpeg'
   }];
 
