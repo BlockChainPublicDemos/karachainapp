@@ -100,7 +100,7 @@ angular.module('starter.services', ['ngCookies'])
             
             websocket.onopen = function(evt) {
             	var pagedata = that.data;
-            	var msgCreate = '{"type" : "createperformance","name":"'+ pagedata.performancename+'", "venue":"'+ pagedata.performancevenue+'", "date":"'+ pagedata.performancedate+'","singer": "bob","v":1}';
+            	var msgCreate = '{"type" : "createperformance","performancename":"'+ pagedata.performancename+'", "performancevenue":"'+ pagedata.performancevenue+'", "performancedate":"'+ pagedata.performancedate+'","singer": "'+data.singerename+'","performancevideo":"'+ pagedata.performancevideo+'","videodate":"'+ pagedata.videodate+'","v":1}';
                 console.log("ws opened "+msgCreate);
                 websocket.send(msgCreate);
               };
