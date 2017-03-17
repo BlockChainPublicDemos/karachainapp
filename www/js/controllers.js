@@ -98,7 +98,13 @@ angular.module('starter.controllers', [])
 	//$scope.$on('$ionicView.enter', function(e) {
 	//});
 	$scope.data = {};
-	$scope.songs = Songs.all();
+	$scope.data.singerId = "kc0123456";
+	$scope.songs = Songs.allkc();
+	SingerService.getPerformances($scope.data).then(function(data) {
+      //  $scope.songs =  angular.toJson(data);  
+       // $scope.songs =  data;  
+        console.log("[visitor ctlr] getperformances: "+$scope.songs)
+    });
 	$scope.registerVisitor = function() {
 	}
 
@@ -111,6 +117,11 @@ angular.module('starter.controllers', [])
 	$scope.data = {};
 	$scope.song = Songs.get($stateParams.songId);
 	$scope.votePerformance = function(){
+		SingerService.voteSong($scope.data);
+		$state.go('visitor.profile');
+
+	}
+	$scope.getPerformances = function(){
 		SingerService.voteSong($scope.data);
 
 	}

@@ -164,6 +164,48 @@ angular.module('starter.services', ['ngCookies'])
                 return promise;
             }
             return promise;
+        },
+        getPerformances: function(data) {
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            data.singerId = "kc0123456";
+            this.data = data;
+            var that = this;
+          
+            /**
+             * var msgCreate = {type : "create",name: "bobs-song4", color: "red", size: "35",user: "bob",v:1};
+				var msgDelete = {type: 'remove',name: 'rejhp4s', v:1};
+				var msgTransfer = {type: 'transfer',name: 'bobs-song3', user: 'leroy',v:1};
+				var msgRead = {type: 'read', v:1};
+
+             */
+            var websocket = new WebSocket("ws://karachain-app-team2.mybluemix.net/");
+            
+            websocket.onopen = function(evt) {
+            	var pagedata = that.data;
+            	var msgCreate = '{"type" : "viewmyperformances","singer":"' +pagedata.singerId+'","v":1}';
+                console.log("ws opened "+msgCreate);
+                websocket.send(msgCreate);
+              };
+              websocket.onmessage = function(evt) {
+            	  console.log("ws message view performances: "+evt.data);
+            	  that.songdata = evt.data;
+              }
+//            if (name == 'user' && pw == 'secret') {
+//                deferred.resolve('Welcome ' + name + '!');
+//            } else {
+//                deferred.reject('Wrong credentials.');
+//            }
+            deferred.resolve(that.songdata);
+            promise.success = function(fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function(fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
         }
     }
 }).service('SessionService', ['$cookies', function ($cookies) {
@@ -296,6 +338,10 @@ angular.module('starter.services', ['ngCookies'])
      item: '..other'
   }];
   // Some fake testing data
+ var kcsongs =[
+ {id:0,"Song_ID":"SONG_ID_001","Date_created":"26.02.2017","Singer_Id":"Singer_ID_123","Singer_Name":"Singer_ANYBODY","Video_Id":"Video_ID_001","Owner":"","Video_Link":"http://123.de","Video_date_created":"26.02.2017","Video_QR_code_Id":"QR_STRING123","Venue_Id":"Venue_ID_001","Venue_Name":"Venue_Name_NY","User_rating":{},"Obsolete":false,"Status":"UNDEFINED","Song_Name":"Song_ANYONE","AVG_Rating":0},
+ {id:1,"Song_ID":"kc6508151","Date_created":"01/01/2017","Singer_Id":"user_type1_1","Singer_Name":"Carsten","Video_Id":"vd2326197","Owner":"","Video_Link":"https://www.youtube.com/watch?v=Lsty-LgDNxc","Video_date_created":"01/01/2017","Video_QR_code_Id":"qr746245","Venue_Id":"vu5722680","Venue_Name":"lazy dog","User_rating":{"user_type2_0":5},"Obsolete":false,"Status":"UNDEFINED","Song_Name":"RockNRoll","AVG_Rating":5}
+	 ];
   var songs = [{
     id: 0,
     name: 'Love Shack',
@@ -316,6 +362,9 @@ angular.module('starter.services', ['ngCookies'])
     all: function() {
       return songs;
     },
+    allkc: function() {
+        return kcsongs;
+      },
 	ovlist: function(){
 		return optionitems;
 	},
@@ -323,12 +372,16 @@ angular.module('starter.services', ['ngCookies'])
       songs.splice(songs.indexOf(song), 1);
     },
     get: function(songId) {
-    	console.log("get song: "+songId);	
+      console.log("get song: "+songId);	
       for (var i = 0; i < songs.length; i++) {    	
         if (songs[i].id === parseInt(songId)) {
           return songs[i];
         }
       }
+      return null;
+    },
+    set: function(data) {
+      console.log("set song: "+songId);	
       return null;
     }
   };
