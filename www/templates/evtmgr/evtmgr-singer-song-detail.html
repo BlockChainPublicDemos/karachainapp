@@ -4,17 +4,42 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="{{song.name}}">
+<ion-view view-title="Contract for {{song.Singer_Name}}'s {{song.Song_Name}}">
   <ion-content class="padding">
-    <img ng-src="{{song.face}}" style="width: 64px; height: 64px">
-    <p>
-      {{song.artist}}
-    </p>
-     <input type="hidden" value="{{song.id}}"  ng-model="data.songid">
-    <button class="button button-block button-calm" ng-click="votesong()">Offer Contract</button>
-    <label class="item item-input">
-              <input type="text"  ng-model="data.rating">
-     </label>
-    <qrcode error-correction-level="{{e}}" size="{{s}}" data="{{song.name}}" download></qrcode>
+ 	<ion-nav-bar class="bar-royal">
+        <ion-nav-back-button>Back</ion-nav-back-button>
+	</ion-nav-bar>
+ 
+    <!-- <input type="hidden" ng-model="record.usersId" value="{{user.userId}}" ng-init="record.usersId=user.userId"/> -->
+    <a href="{{song.Video_Link}}" target="_blank" style="font-size:24px;color:black;"><img width="45" height="45" src="../../img/music-icon.png"/></a> 
+    
+     
+     <form name="submitofferform" ng-submit="submitoffer(data)">
+      <div class="list list-inset">
+           <label class="item item-input">
+              <input type="text" placeholder="Venue Name" ng-model="data.copyright_inst_name">
+         </label>
+           <label class="item item-input">
+              <input type="text" placeholder="Contract Offer Date" ng-model="data.copywritedate">
+          </label>
+          <label class="item item-input">
+              <input type="text" placeholder="Contract Start Date" ng-model="data.copywritestartdate">
+          </label>
+          <label class="item item-input">
+              <input type="text" placeholder="Contract End Date" ng-model="data.copywriteenddate">
+          </label>
+          <label class="item item-input">
+              <input type="text" placeholder="Contract Value" ng-model="data.contractvalue">
+          </label>       
+          <input type="hidden" value="{{song.id}}"  ng-model="data.songid" ng-init="data.songid=song.id" />
+      </div>
+      </form>
+ 
+    <button class="button button-block button-calm" ng-click="submitoffer(data)">Offer Contract</button>
+   
+    
+    <!-- <input type="hidden" value="{{song.id}}"  ng-model="data.songid">
+     <qrcode error-correction-level="{{e}}" size="{{s}}" data="{{song.name}}" download></qrcode>
+     -->
   </ion-content>
 </ion-view>

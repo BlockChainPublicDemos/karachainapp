@@ -83,7 +83,7 @@ angular.module('starter.services', ['ngCookies'])
             }
             return promise;
         },
-        registerPerformance: function(performancename, performancevenu, performancedate, data) {
+        registerPerformance: function(data) {
             var deferred = $q.defer();
             var promise = deferred.promise;
             this.data = data;
@@ -100,21 +100,21 @@ angular.module('starter.services', ['ngCookies'])
             
             websocket.onopen = function(evt) {
             	var pagedata = that.data;
-            	var msgCreate = '{"type" : "createperformance","performancename":"'+ pagedata.performancename+'", "performancevenue":"'+ pagedata.performancevenue+'", "performancedate":"'+ pagedata.performancedate+'","singer": "'+data.singerename+'","performancevideo":"'+ pagedata.performancevideo+'","videodate":"'+ pagedata.videodate+'","v":1}';
+            	var msgCreate = '{"type" : "createperformance","performancename":"'+ pagedata.performancename+'", "performancevenue":"'+ pagedata.performancevenue+'", "performancedate":"'+ pagedata.performancedate+'","singerName": "'+data.singername+'","performancevideo":"'+ pagedata.performancevideo+'","videodate":"'+ pagedata.videodate+'","v":1}';
                 console.log("ws opened "+msgCreate);
                 websocket.send(msgCreate);
               };
               websocket.onmessage = function(evt) {
-            	  console.log("ws message qr code: "+evt.data);
-            	  qrpng = data.qr.data;
-            	  //this should be a PNG QR file
+            	  console.log("ws message: "+evt.data);
+            	  //this should be a status message for the register performance
+            	  deferred.resolve('registered performance..');
               }
 //            if (name == 'user' && pw == 'secret') {
 //                deferred.resolve('Welcome ' + name + '!');
 //            } else {
 //                deferred.reject('Wrong credentials.');
 //            }
-            deferred.resolve('registering performance..');
+           
             promise.success = function(fn) {
                 promise.then(fn);
                 return promise;
@@ -149,6 +149,71 @@ angular.module('starter.services', ['ngCookies'])
               websocket.onmessage = function(evt) {
             	  console.log("ws message vote song: "+evt.data);
             	  deferred.resolve('registering performance..');
+              }
+//            if (name == 'user' && pw == 'secret') {
+//                deferred.resolve('Welcome ' + name + '!');
+//            } else {
+//                deferred.reject('Wrong credentials.');
+//            }
+            
+            promise.success = function(fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function(fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+        },
+        submitOffer: function(data) {
+        	/**
+        	 * Singer_ID := args[5]
+				Copyright_Id := args[1]
+				Copyright_date_created := args[2]
+				Copyright_Institution_Id := args[3]
+				Copyright_Institution_Name := args[4]
+				Contract_date_from := args[6]
+				Contract_date_to := args[7]
+				SmartContract_ID := args[8]
+				args[0] = blank
+							data.songid = lastSongId;
+			data.contractid = "ct"+Math.round(Math.pow(10,7)*Math.random());
+			data.copywriteid = "cw"+Math.round(Math.pow(10,7)*Math.random());
+			data.copywriteinstid = "ci"+Math.round(Math.pow(10,7)*Math.random());
+			data.cwrec = "COPYRIGHT_RECORD";
+			data.singerid = lastSingerId;
+			data.date = "01/30/2017";
+			data.copywritedate = "01/30/2017";
+			data.copywritestartdate = "01/30/2017";
+			data.copywriteenddate = "01/30/2017";
+			data.copyright_inst_name = "institution";
+			data.eventmgrid = "em"+Math.round(Math.pow(10,7)*Math.random());
+			data.eventmgrname = lastEvtMgrId;
+        	 */
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+            this.data = data;
+            var that = this;
+          
+            /**
+             * var msgCreate = {type : "create",name: "bobs-song4", color: "red", size: "35",user: "bob",v:1};
+				var msgDelete = {type: 'remove',name: 'rejhp4s', v:1};
+				var msgTransfer = {type: 'transfer',name: 'bobs-song3', user: 'leroy',v:1};
+				var msgRead = {type: 'read', v:1};
+
+             */
+            var websocket = new WebSocket("ws://karachain-app-team2.mybluemix.net/");
+            
+            websocket.onopen = function(evt) {
+            	var pagedata = that.data;
+            	var msgcontract = '{"type" : "submitoffer","copywriteid":"'+pagedata.copywriteid+'", "copywritedate":"'+ pagedata.copywritedate+'","copywriteinstid": "'+pagedata.copywriteinstid+'","copyright_inst_name":"'+ pagedata.copyright_inst_name+'","singerid":"'+pagedata.bcsingerid+'","songid":"'+pagedata.bcsongid+'","copywritestartdate":"'+ pagedata.copywritestartdate+'","copywriteenddate":"'+ pagedata.copywriteenddate+'","contractid":"'+pagedata.contractid+'","contractvalue":"'+pagedata.contractvalue+'","v":1}';
+                console.log("ws opened "+msgcontract);
+                websocket.send(msgcontract);
+              };
+              websocket.onmessage = function(evt) {
+            	  console.log("ws message contract: "+evt.data);
+            	  deferred.resolve('contracting performance..');
               }
 //            if (name == 'user' && pw == 'secret') {
 //                deferred.resolve('Welcome ' + name + '!');

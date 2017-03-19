@@ -62,7 +62,7 @@ angular.module('starter.controllers', [])
 	}
 	$scope.registerPerformance = function(){
 		//SessionService.store("role",$scope.data.role);
-		SingerService.registerPerformance($scope.data.performancename, $scope.data.performancevenue,$scope.data.performancedate,$scope.data).success(function(data) {
+		SingerService.registerPerformance($scope.data).success(function(data) {
 			$state.go('singer.songs');
 		}).error(function(data) {
 			var alertPopup = $ionicPopup.alert({
@@ -188,6 +188,7 @@ angular.module('starter.controllers', [])
 			});
 		});
 	};
+
 	$scope.registerEvtMgr = function() {
 	}
 
@@ -198,5 +199,24 @@ angular.module('starter.controllers', [])
 })
 .controller('EvtMgrDetailCtrl', function($scope, $state, $stateParams, Songs,SingerService,SessionService) {
 	$scope.data = {};
-	$scope.song = Songs.get($stateParams.songId);
+	$scope.songs = SessionService.get("songs");
+	$scope.song = $scope.songs[$stateParams.songId];
+	$scope.data.songid = $stateParams.songId;
+	$scope.data.bcsongid = $scope.songs[$stateParams.songId].Song_ID;
+	$scope.data.bcsingerid = $scope.songs[$stateParams.songId].Singer_Id; //use this for visitor
+	$scope.submitoffer = function(data){
+//		var songs = SessionService.get("songs");
+//		var seletedsong = songs[$stateParams.songId];
+		console.log("EvtMgr detail ctlr] submit offer ",data,$scope.data.songid);
+//		$scope.song = $stateParams.songId;
+		SingerService.submitOffer(data).success(function(data) {
+			//  $scope.songs =  angular.toJson(data);  
+			console.log("[EvtMgr detail ctlr] submit offer: OK")
+		}).error(function(data) {
+			var alertPopup = $ionicPopup.alert({
+				title: 'submit offer failed!',
+				template: 'Please try again!'
+			});
+		});
+	};
 });
