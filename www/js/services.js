@@ -59,7 +59,7 @@ angular.module('starter.services', ['ngCookies'])
             return promise;
         }
     }
-}).service('SingerService', function($q) {
+}).service('SingerService', function($q,$http) {
     return {
         registerSinger: function(name, pw) {
             var deferred = $q.defer();
@@ -142,19 +142,20 @@ angular.module('starter.services', ['ngCookies'])
             
             websocket.onopen = function(evt) {
             	var pagedata = that.data;
-            	var msgCreate = '{"type" : "voteperformance","songid":"'+ pagedata.songid+'", "rating":"'+ pagedata.rating+'","singer": "bob","v":1}';
-                console.log("ws opened "+msgCreate);
-                websocket.send(msgCreate);
+            	var msgVote = '{"type" : "voteperformance","songid":"'+pagedata.bcsongid+'", "rating":"'+ pagedata.rating+'","visitorid": "'+pagedata.bcsingerid+'","v":1}';
+                console.log("ws opened "+msgVote);
+                websocket.send(msgVote);
               };
               websocket.onmessage = function(evt) {
-            	  console.log("ws message qr code: "+evt.data);
+            	  console.log("ws message vote song: "+evt.data);
+            	  deferred.resolve('registering performance..');
               }
 //            if (name == 'user' && pw == 'secret') {
 //                deferred.resolve('Welcome ' + name + '!');
 //            } else {
 //                deferred.reject('Wrong credentials.');
 //            }
-            deferred.resolve('registering performance..');
+            
             promise.success = function(fn) {
                 promise.then(fn);
                 return promise;
@@ -164,6 +165,33 @@ angular.module('starter.services', ['ngCookies'])
                 return promise;
             }
             return promise;
+        },
+        getPerformancesREST: function(data){
+        	var url = 'http://localhost:3000'; 
+        	var deferred = $q.defer();
+        	var promise = deferred.promise;
+        	this.data = data;
+        	var that = this;
+        	$http.get(url).success(function(data) {
+        		//$scope.data = data;
+        		that.songdata = data;
+        		console.log("http: ",data);
+        		deferred.resolve(that.songdata);
+        		
+        	}).error(function(error) {
+        		console.log("http error ",error);
+        		deferred.reject(error);
+        	});
+
+        	promise.success = function(fn) {
+        		promise.then(fn);
+        		return promise;
+        	}
+        	promise.error = function(fn) {
+        		promise.then(null, fn);
+        		return promise;
+        	}
+        	return promise;           
         },
         getPerformances: function(data) {
             var deferred = $q.defer();
@@ -181,6 +209,7 @@ angular.module('starter.services', ['ngCookies'])
              */
             var websocket = new WebSocket("ws://karachain-app-team2.mybluemix.net/");
             
+            
             websocket.onopen = function(evt) {
             	var pagedata = that.data;
             	var msgCreate = '{"type" : "viewmyperformances","singer":"' +pagedata.singerId+'","v":1}';
@@ -190,13 +219,14 @@ angular.module('starter.services', ['ngCookies'])
               websocket.onmessage = function(evt) {
             	  console.log("ws message view performances: "+evt.data);
             	  that.songdata = evt.data;
+            	  deferred.resolve(that.songdata);
               }
 //            if (name == 'user' && pw == 'secret') {
 //                deferred.resolve('Welcome ' + name + '!');
 //            } else {
 //                deferred.reject('Wrong credentials.');
 //            }
-            deferred.resolve(that.songdata);
+           
             promise.success = function(fn) {
                 promise.then(fn);
                 return promise;

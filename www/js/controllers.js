@@ -55,7 +55,7 @@ angular.module('starter.controllers', [])
 		});
 	}
 })
-.controller('SingerCtrl', function($scope, $state,$stateParams, Songs,SingerService,SessionService) {
+.controller('SingerCtrl', function($scope,$ionicPopup,  $state,$stateParams,Songs,SingerService,SessionService) {
 	$scope.data = {};
 	$scope.songs = Songs.all();
 	$scope.registerSinger = function() {
@@ -72,16 +72,31 @@ angular.module('starter.controllers', [])
 		});
 
 	}
-	$scope.getPerformances = function(){
-
-	}
+	$scope.getPerformances=function(){
+		SingerService.getPerformances($scope.data).success(function(data) {
+			//  $scope.songs =  angular.toJson(data);  
+			$scope.songs =  JSON.parse(data);  
+			SessionService.store("songs",$scope.songs);
+			console.log("[visitor ctlr] getperformances: "+data)
+		}).error(function(data) {
+			var alertPopup = $ionicPopup.alert({
+				title: 'Get performances failed!',
+				template: 'Please try again!'
+			});
+		});
+	};
 	$scope.remove = function(song) {
 		Songs.remove(song);
 	};
+	$scope.getPerformances();
 })
-.controller('SongDetailCtrl', function($scope, $stateParams,$state, Songs,SingerService,SessionService) {
+.controller('SongDetailCtrl', function($scope, $ionicPopup, $stateParams,$state, Songs,SingerService,SessionService) {
 	$scope.data = {};
-	$scope.song = Songs.get($stateParams.songId);
+	$scope.songs = SessionService.get("songs");
+	$scope.song = $scope.songs[$stateParams.songId];
+	$scope.data.songid = $stateParams.songId;
+	$scope.data.bcsongid = $scope.songs[$stateParams.songId].Song_ID;
+	$scope.data.bcsingerid = $scope.songs[$stateParams.songId].Singer_Id; //use this for visitor
 })
 .controller('AccountCtrl', function($scope,$state,SingerService,SessionService) {
 	$scope.data = {};
@@ -89,7 +104,7 @@ angular.module('starter.controllers', [])
 			enableFriends : true
 	};
 })
-.controller('VisitorCtrl', function($scope, $state,Songs,SingerService,SessionService) {
+.controller('VisitorCtrl', function($scope, $ionicPopup, $state,Songs,SingerService,SessionService) {
 	// With the new view caching in Ionic, Controllers are only called
 	// when they are recreated or on app start, instead of every page change.
 	// To listen for when this page is active (for example, to refresh data),
@@ -98,35 +113,58 @@ angular.module('starter.controllers', [])
 	//$scope.$on('$ionicView.enter', function(e) {
 	//});
 	$scope.data = {};
-	$scope.data.singerId = "kc0123456";
-	$scope.songs = Songs.allkc();
-	SingerService.getPerformances($scope.data).then(function(data) {
-      //  $scope.songs =  angular.toJson(data);  
-       // $scope.songs =  data;  
-        console.log("[visitor ctlr] getperformances: "+$scope.songs)
-    });
+	//$scope.data.singerId = "kc0123456";
+	$scope.songs = {};
+	$scope.getPerformances=function(){
+		SingerService.getPerformances($scope.data).success(function(data) {
+			//  $scope.songs =  angular.toJson(data);  
+			$scope.songs =  JSON.parse(data);  
+			SessionService.store("songs",$scope.songs);
+			console.log("[visitor ctlr] getperformances: "+data)
+		}).error(function(data) {
+			var alertPopup = $ionicPopup.alert({
+				title: 'Get performances failed!',
+				template: 'Please try again!'
+			});
+		});
+	};
 	$scope.registerVisitor = function() {
 	}
 
 	$scope.getPerformanceByQR = function(){
 
 	}
+	$scope.getPerformances();
 
 })
-.controller('VisitorDetailCtrl', function($scope, $state,$stateParams, Songs,SingerService) {
+.controller('VisitorDetailCtrl', function($scope, $state,$stateParams, Songs,SingerService,SessionService) {
 	$scope.data = {};
-	$scope.song = Songs.get($stateParams.songId);
-	$scope.votePerformance = function(){
-		SingerService.voteSong($scope.data);
-		$state.go('visitor.profile');
-
-	}
-	$scope.getPerformances = function(){
-		SingerService.voteSong($scope.data);
-
+	$scope.songs = SessionService.get("songs");
+	$scope.song = $scope.songs[$stateParams.songId];
+	$scope.data.songid = $stateParams.songId;
+	$scope.data.bcsongid = $scope.songs[$stateParams.songId].Song_ID;
+	$scope.data.bcsingerid = $scope.songs[$stateParams.songId].Singer_Id; //use this for visitor
+	
+	$scope.votePerformance = function(data){
+//		var songs = SessionService.get("songs");
+//		var seletedsong = songs[$stateParams.songId];
+		console.log("vote song ",data,$scope.data.songid);
+//		$scope.song = $stateParams.songId;
+		SingerService.voteSong(data).success(function(data) {
+			//  $scope.songs =  angular.toJson(data);  
+			console.log("[visitor detail ctlr] vote performance: OK")
+		}).error(function(data) {
+			var alertPopup = $ionicPopup.alert({
+				title: 'Vote performances failed!',
+				template: 'Please try again!'
+			});
+		});
+	};
+	$scope.refreshPerformances = function(){
+		//
 	}
 })
-.controller('EvtMgrCtrl', function($scope, $state, Songs,SessionService) {
+.controller('EvtMgrCtrl', function($scope, $state, Songs,SingerService,SessionService) {
 	// With the new view caching in Ionic, Controllers are only called
 	// when they are recreated or on app start, instead of every page change.
 	// To listen for when this page is active (for example, to refresh data),
@@ -135,13 +173,30 @@ angular.module('starter.controllers', [])
 	//$scope.$on('$ionicView.enter', function(e) {
 	//});
 	$scope.data = {};
-	$scope.songs = Songs.all();
-	$scope.votePerformance = function(){
-		SingerService.VoteSong($scope.data);
+	//$scope.data.singerId = "kc0123456";
+	$scope.songs = {};
+	$scope.getPerformances=function(){
+		SingerService.getPerformances($scope.data).success(function(data) {
+			//  $scope.songs =  angular.toJson(data);  
+			$scope.songs =  JSON.parse(data);  
+			SessionService.store("songs",$scope.songs);
+			console.log("[visitor ctlr] getperformances: "+data)
+		}).error(function(data) {
+			var alertPopup = $ionicPopup.alert({
+				title: 'Get performances failed!',
+				template: 'Please try again!'
+			});
+		});
+	};
+	$scope.registerEvtMgr = function() {
+	}
+
+	$scope.getPerformanceByQR = function(){
 
 	}
+	$scope.getPerformances();
 })
-.controller('EvtMgrDetailCtrl', function($scope, $state, $stateParams, Songs,SessionService) {
+.controller('EvtMgrDetailCtrl', function($scope, $state, $stateParams, Songs,SingerService,SessionService) {
 	$scope.data = {};
 	$scope.song = Songs.get($stateParams.songId);
 });

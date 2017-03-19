@@ -4,12 +4,18 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="{{song.name}}">
+<ion-view view-title="{{song.Singer_Name}}'s {{song.Song_Name}}">
+<ion-nav-bar class="bar-royal">
+        <ion-nav-back-button>Back</ion-nav-back-button>
+</ion-nav-bar>
   <ion-content class="padding">
-    <img ng-src="{{song.face}}" style="width: 64px; height: 64px">
-    <qrcode error-correction-level="{{e}}" size="{{s}}" data="{{song.name}}" download></qrcode>
-    <p>
-      {{song.artist}}
-    </p>
+   
+    <!-- <input type="hidden" ng-model="record.usersId" value="{{user.userId}}" ng-init="record.usersId=user.userId"/> -->
+    <a href="{{song.Video_Link}}" target="_blank" style="font-size:24px;color:black;"><img width="45" height="45" src="../../img/music-icon.png"/></a> 
+     <input type="hidden" value="{{song.id}}"  ng-model="data.songid" ng-init="data.songid=song.id" />
+    <!--   <video controls="controls" preload="metadata" autoplay="autoplay" webkit-playsinline="webkit-playsinline" class="videoPlayer"><source src="{{song.Video_Link}}" type="video/mp4"/></video>-->
+     <!--  <ion-img width="80" height="80" src="http://karachain-app-team2.mybluemix.net/getqrcode/singername/singerName/songname/songName/singerId/singerId/songId/songId/perfDate/date"></ion-img>-->
+      
+    <!--  <qrcode error-correction-level="{{e}}" size="{{s}}" data="{{song.name}}" download></qrcode>-->
   </ion-content>
 </ion-view>
