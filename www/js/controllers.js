@@ -116,7 +116,47 @@ angular.module('starter.controllers', [])
 	};
 	$scope.getContracts();
 	
+}).controller('AccountDetailCtrl', function($scope, $state,$stateParams,ContractService,SessionService) {
+	$scope.data = {};
+	$scope.contracts = SessionService.get("contracts");
+	$scope.contract = $scope.contracts[$stateParams.contractId];
+	$scope.data.contractid = $stateParams.contractid;
+	
+	$scope.acceptcontract = function(data){
+//		var songs = SessionService.get("songs");
+//		var seletedsong = songs[$stateParams.songId];
+		console.log("account details accept: ",data,$scope.data.contractid);
+		$scope.data.accepted=data;
+		$scope.data.contractid=$scope.contract.SmartContract_ID;
+		$scope.data.singerid=$scope.contract.singerid;
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if(dd<10) {
+		    dd='0'+dd
+		} 
+
+		if(mm<10) {
+		    mm='0'+mm
+		} 
+
+		today = mm+'/'+dd+'/'+yyyy;
+		$scope.data.date = today;
+		ContractService.respondToOffer($scope.data).success(function(data) {
+			//  $scope.songs =  angular.toJson(data);  
+			console.log("acceptcontract: contract response sent");
+		}).error(function(data) {
+			var alertPopup = $ionicPopup.alert({
+				title: 'acceptcontract: failed!',
+				template: 'Please try again!'
+			});
+		});
+	};
+	
 })
+
 .controller('VisitorCtrl', function($scope, $ionicPopup, $state,Songs,SingerService,SessionService) {
 	// With the new view caching in Ionic, Controllers are only called
 	// when they are recreated or on app start, instead of every page change.

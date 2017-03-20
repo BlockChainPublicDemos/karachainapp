@@ -311,6 +311,41 @@ angular.module('starter.services', ['ngCookies'])
                   return promise;
               }
               return promise;
+          }, respondToOffer: function(data) {
+              var deferred = $q.defer();
+              var promise = deferred.promise;
+              this.data = data;
+              var that = this;
+            
+              /**
+               * et_Contract_Response([data.singerid,data.contractid,data.accepted,data.date], cb_invoked);
+               * WS message template
+               * var msgCreate = {type :te",name: "bobs-song4", color: "red", size: "35",user: "bob",v:1}
+               */
+              var websocket = new WebSocket("ws://karachain-app-team2.mybluemix.net/");
+            
+              
+              websocket.onopen = function(evt) {
+              	var pagedata = that.data;
+              	var msgContractResponse = '{"type" : "acceptoffer","singer":"' +pagedata.singerid+'","contractid":"' +pagedata.contractid+'","accpeted":"'+pagedata.accepted+'","date":"'+pagedata.date+'","v":1}';
+                  console.log("ws opened "+msgContractResponse);
+                  websocket.send(msgContractResponse);
+                };
+                websocket.onmessage = function(evt) {
+              	  console.log("ws message view contracts: "+evt.data);
+              	  that.contractdata = evt.data;
+              	  deferred.resolve(that.contractdata);
+                }
+
+              promise.success = function(fn) {
+                  promise.then(fn);
+                  return promise;
+              }
+              promise.error = function(fn) {
+                  promise.then(null, fn);
+                  return promise;
+              }
+              return promise;
           }
     }
 }).service('SessionService', ['$cookies', function ($cookies) {

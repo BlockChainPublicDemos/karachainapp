@@ -136,7 +136,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','m
             controller: 'AccountCtrl'
           }
         }
-      })
+}).state('singer.account-detail', {
+          url: '/myaccount/:contractId',
+          views: {
+            'singer-myaccount': {
+              templateUrl: 'templates/singer/account-detail.html',
+              controller: 'AccountDetailCtrl'
+            }
+          }
+})
 .state('visitor', {
   url: '/visitor',
   abstract: true,
