@@ -98,11 +98,24 @@ angular.module('starter.controllers', [])
 	$scope.data.bcsongid = $scope.songs[$stateParams.songId].Song_ID;
 	$scope.data.bcsingerid = $scope.songs[$stateParams.songId].Singer_Id; //use this for visitor
 })
-.controller('AccountCtrl', function($scope,$state,SingerService,SessionService) {
+.controller('AccountCtrl', function($scope,$state,ContractService,SessionService) {
 	$scope.data = {};
-	$scope.settings = {
-			enableFriends : true
+	$scope.contracts = {};
+	$scope.getContracts=function(){
+		ContractService.getContracts($scope.data).success(function(data) {
+			//  $scope.songs =  angular.toJson(data);  
+			$scope.contracts =  JSON.parse(data);  
+			SessionService.store("contracts",$scope.contracts);
+			console.log("[AccountCtrl] getContracts: "+data)
+		}).error(function(data) {
+			var alertPopup = $ionicPopup.alert({
+				title: 'Get Contracts failed!',
+				template: 'Please try again!'
+			});
+		});
 	};
+	$scope.getContracts();
+	
 })
 .controller('VisitorCtrl', function($scope, $ionicPopup, $state,Songs,SingerService,SessionService) {
 	// With the new view caching in Ionic, Controllers are only called

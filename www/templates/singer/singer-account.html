@@ -1,9 +1,18 @@
-<ion-view view-title="My Account">
+<ion-view view-title=" My Contracts"  cache-view="false" >
   <ion-content>
     <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Under Construction
-    </ion-toggle>
+    
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="contract in contracts" type="item-text-wrap" href="#/singer/contracts/{{contract.id}}">
+       <!--  <img ng-src="{{song.Video_Link}}">-->
+		    <h2>{{contract.Copyright_Institution_Name}}</h2>
+		    <p>From: {{contract.Contract_date_from}}    To: {{contract.Contract_date_to}}</p>
+		    
+        <i class="icon ion-chevron-right icon-accessory"></i>
+        <ion-option-button class="button-assertive" ng-click="remove(contract)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+      
     </ion-list>
   </ion-content>
 </ion-view>

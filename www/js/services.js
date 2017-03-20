@@ -29,10 +29,6 @@ angular.module('starter.services', ['ngCookies'])
             var promise = deferred.promise;
             /**
              * var msgCreate = {type : "create",name: "bobs-song4", color: "red", size: "35",user: "bob",v:1};
-				var msgDelete = {type: 'remove',name: 'rejhp4s', v:1};
-				var msgTransfer = {type: 'transfer',name: 'bobs-song3', user: 'leroy',v:1};
-				var msgRead = {type: 'read', v:1};
-
              */
             var websocket = new WebSocket("ws://karachain-app-team2.mybluemix.net/");
             
@@ -90,11 +86,9 @@ angular.module('starter.services', ['ngCookies'])
             var that = this;
           
             /**
+             * WS message templates
              * var msgCreate = {type : "create",name: "bobs-song4", color: "red", size: "35",user: "bob",v:1};
-				var msgDelete = {type: 'remove',name: 'rejhp4s', v:1};
-				var msgTransfer = {type: 'transfer',name: 'bobs-song3', user: 'leroy',v:1};
-				var msgRead = {type: 'read', v:1};
-
+	
              */
             var websocket = new WebSocket("ws://karachain-app-team2.mybluemix.net/");
             
@@ -131,12 +125,9 @@ angular.module('starter.services', ['ngCookies'])
             this.data = data;
             var that = this;
           
-            /**
-             * var msgCreate = {type : "create",name: "bobs-song4", color: "red", size: "35",user: "bob",v:1};
-				var msgDelete = {type: 'remove',name: 'rejhp4s', v:1};
-				var msgTransfer = {type: 'transfer',name: 'bobs-song3', user: 'leroy',v:1};
-				var msgRead = {type: 'read', v:1};
-
+            /*
+             * WS mesage template*
+             * var msgCreate = {type : "create",name: "bobs-song4", color: "red", size: "35",user: "bob",v:1}
              */
             var websocket = new WebSocket("ws://karachain-app-team2.mybluemix.net/");
             
@@ -150,11 +141,7 @@ angular.module('starter.services', ['ngCookies'])
             	  console.log("ws message vote song: "+evt.data);
             	  deferred.resolve('registering performance..');
               }
-//            if (name == 'user' && pw == 'secret') {
-//                deferred.resolve('Welcome ' + name + '!');
-//            } else {
-//                deferred.reject('Wrong credentials.');
-//            }
+
             
             promise.success = function(fn) {
                 promise.then(fn);
@@ -198,10 +185,6 @@ angular.module('starter.services', ['ngCookies'])
           
             /**
              * var msgCreate = {type : "create",name: "bobs-song4", color: "red", size: "35",user: "bob",v:1};
-				var msgDelete = {type: 'remove',name: 'rejhp4s', v:1};
-				var msgTransfer = {type: 'transfer',name: 'bobs-song3', user: 'leroy',v:1};
-				var msgRead = {type: 'read', v:1};
-
              */
             var websocket = new WebSocket("ws://karachain-app-team2.mybluemix.net/");
             
@@ -215,11 +198,7 @@ angular.module('starter.services', ['ngCookies'])
             	  console.log("ws message contract: "+evt.data);
             	  deferred.resolve('contracting performance..');
               }
-//            if (name == 'user' && pw == 'secret') {
-//                deferred.resolve('Welcome ' + name + '!');
-//            } else {
-//                deferred.reject('Wrong credentials.');
-//            }
+
             
             promise.success = function(fn) {
                 promise.then(fn);
@@ -267,10 +246,6 @@ angular.module('starter.services', ['ngCookies'])
           
             /**
              * var msgCreate = {type : "create",name: "bobs-song4", color: "red", size: "35",user: "bob",v:1};
-				var msgDelete = {type: 'remove',name: 'rejhp4s', v:1};
-				var msgTransfer = {type: 'transfer',name: 'bobs-song3', user: 'leroy',v:1};
-				var msgRead = {type: 'read', v:1};
-
              */
             var websocket = new WebSocket("ws://karachain-app-team2.mybluemix.net/");
             
@@ -286,11 +261,7 @@ angular.module('starter.services', ['ngCookies'])
             	  that.songdata = evt.data;
             	  deferred.resolve(that.songdata);
               }
-//            if (name == 'user' && pw == 'secret') {
-//                deferred.resolve('Welcome ' + name + '!');
-//            } else {
-//                deferred.reject('Wrong credentials.');
-//            }
+
            
             promise.success = function(fn) {
                 promise.then(fn);
@@ -302,6 +273,45 @@ angular.module('starter.services', ['ngCookies'])
             }
             return promise;
         }
+    }
+}).service('ContractService', function($q,$http) {
+    return {
+    	  getContracts: function(data) {
+              var deferred = $q.defer();
+              var promise = deferred.promise;
+              data.singerId = "kc0123456";
+              this.data = data;
+              var that = this;
+            
+              /**
+               * WS message template
+               * var msgCreate = {type :te",name: "bobs-song4", color: "red", size: "35",user: "bob",v:1}
+               */
+              var websocket = new WebSocket("ws://karachain-app-team2.mybluemix.net/");
+            
+              
+              websocket.onopen = function(evt) {
+              	var pagedata = that.data;
+              	var msgContracts = '{"type" : "getmyoffers","singer":"' +pagedata.singerId+'","v":1}';
+                  console.log("ws opened "+msgContracts);
+                  websocket.send(msgContracts);
+                };
+                websocket.onmessage = function(evt) {
+              	  console.log("ws message view contracts: "+evt.data);
+              	  that.contractdata = evt.data;
+              	  deferred.resolve(that.contractdata);
+                }
+
+              promise.success = function(fn) {
+                  promise.then(fn);
+                  return promise;
+              }
+              promise.error = function(fn) {
+                  promise.then(null, fn);
+                  return promise;
+              }
+              return promise;
+          }
     }
 }).service('SessionService', ['$cookies', function ($cookies) {
     var localStoreAvailable = typeof (Storage) !== "undefined";
