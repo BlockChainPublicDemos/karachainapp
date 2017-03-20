@@ -63,12 +63,17 @@ angular.module('starter.controllers', [])
 	$scope.registerPerformance = function(){
 		//SessionService.store("role",$scope.data.role);
 		SingerService.registerPerformance($scope.data).success(function(data) {
+			var alertPopup = $ionicPopup.alert({
+				title: 'Register Performance',
+				template: 'Your performance has been recorded and available for voting and offers.'
+			});
 			$state.go('singer.songs');
 		}).error(function(data) {
 			var alertPopup = $ionicPopup.alert({
-				title: 'Register Performance failed!',
-				template: 'Please check your credentials!'
+				title: 'Register Performance',
+				template: 'Technical failure occured during performance registration. Please try again.'
 			});
+			$state.go('singer.songs');
 		});
 
 	}
@@ -97,6 +102,9 @@ angular.module('starter.controllers', [])
 	$scope.data.songid = $stateParams.songId;
 	$scope.data.bcsongid = $scope.songs[$stateParams.songId].Song_ID;
 	$scope.data.bcsingerid = $scope.songs[$stateParams.songId].Singer_Id; //use this for visitor
+	$scope.refreshPerformances = function(){
+		$state.go('singer.songs');
+	}
 })
 .controller('AccountCtrl', function($scope,$ionicPopup,$state,ContractService,SessionService) {
 	$scope.data = {};
@@ -160,6 +168,9 @@ angular.module('starter.controllers', [])
 			$state.go('singer.myaccount');
 		});
 	};
+	$scope.refreshContracts = function(){
+		$state.go('singer.myaccount');
+	}
 	
 })
 
@@ -226,7 +237,7 @@ angular.module('starter.controllers', [])
 		});
 	};
 	$scope.refreshPerformances = function(){
-		//
+		$state.go('visitor.singerperformances');
 	}
 })
 .controller('EvtMgrCtrl', function($scope,$ionicPopup, $state, Songs,SingerService,SessionService) {
@@ -290,4 +301,7 @@ angular.module('starter.controllers', [])
 			$state.go('evtmgr.singerperformances');
 		});
 	};
+	$scope.refreshPerformances = function(){
+		$state.go('evtmgr.singerperformances');
+	}
 });

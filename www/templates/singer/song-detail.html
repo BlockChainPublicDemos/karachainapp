@@ -8,8 +8,11 @@
   <ion-content class="padding">
    
     <!-- <input type="hidden" ng-model="record.usersId" value="{{user.userId}}" ng-init="record.usersId=user.userId"/> -->
-    <a href="{{song.Video_Link}}" target="_blank" style="font-size:24px;color:black;"><img alt="Listen" src="/android_asset/www/img/Music-Player-icon.png"/></a> 
+    
+    <a href="{{song.Video_Link}}" target="_blank" style="font-size:24px;color:black;"><img alt="Listen" src="/android_asset/wwww/img/Music-Player-icon.png"/></a>
+     
      <input type="hidden" value="{{song.id}}"  ng-model="data.songid" ng-init="data.songid=song.id" />
+      <button class="button button-block button-calm" ng-click="refreshPerformances()">Cancel</button>
     <!--   <video controls="controls" preload="metadata" autoplay="autoplay" webkit-playsinline="webkit-playsinline" class="videoPlayer"><source src="{{song.Video_Link}}" type="video/mp4"/></video>-->
      <!--  <ion-img width="80" height="80" src="http://karachain-app-team2.mybluemix.net/getqrcode/singername/singerName/songname/songName/singerId/singerId/songId/songId/perfDate/date"></ion-img>-->
       

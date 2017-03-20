@@ -13,5 +13,6 @@
     <input type="hidden" value="{{contract.id}}"  ng-model="data.contractid" ng-init="data.contractid=contract.id" />
     <button class="button button-block button-calm" ng-click="acceptcontract('true')">Accept</button>
     <button class="button button-block button-calm" ng-click="acceptcontract('false')">Reject</button>
+    <button class="button button-block button-calm" ng-click="refreshContracts()">Cancel</button>
   </ion-content>
 </ion-view>
