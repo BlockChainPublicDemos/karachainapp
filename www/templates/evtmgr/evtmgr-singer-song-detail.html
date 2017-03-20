@@ -17,20 +17,21 @@
               <input type="text" placeholder="Venue Name" ng-model="data.copyright_inst_name">
          </label>
            <label class="item item-input">
-             <input placeholder="Contract Offer Date" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" ng-model="data.copywritedate">
+             <input placeholder="Contract Offer Date" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="datec1" ng-model="data.copywritedate">
               <!-- <input type="date" placeholder="Contract Offer Date" ng-model="data.copywritedate">-->
           </label>
-          <label class="item item-input">Start Date:
-              <input type="date" placeholder="Contract Start Date" ng-model="data.copywritestartdate">
+          <label class="item item-input">
+              <input placeholder="Contract Start Date"  class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="datec2" ng-model="data.copywritestartdate">
           </label>
-          <label class="item item-input">End Date:
-              <input type="date" placeholder="Contract End Date" ng-model="data.copywriteenddate">
+          <label class="item item-input">
+              <input  class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="datec3"  placeholder="Contract End Date" ng-model="data.copywriteenddate">
           </label>
           <label class="item item-input">
               <input type="text" placeholder="Contract Value" ng-model="data.contractvalue">
           </label>       
           <input type="hidden" value="{{song.id}}"  ng-model="data.songid" ng-init="data.songid=song.id" />
       </div>
+       <input type="reset" value="Clear" />
       </form>
  
     <button class="button button-block button-calm" ng-click="submitoffer(data)">Offer Contract</button>
