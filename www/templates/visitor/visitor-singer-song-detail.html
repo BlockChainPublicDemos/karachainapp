@@ -5,13 +5,11 @@
   The Friends service returns an array of friend data
 -->
 <ion-view view-title="{{song.Singer_Name}}'s {{song.Song_Name}}">
-<ion-nav-bar class="bar-royal">
-        <ion-nav-back-button>Back</ion-nav-back-button>
-</ion-nav-bar>
+
   <ion-content class="padding">
    
     <!-- <input type="hidden" ng-model="record.usersId" value="{{user.userId}}" ng-init="record.usersId=user.userId"/> -->
-    <a href="{{song.Video_Link}}" target="_blank" style="font-size:24px;color:black;">Listen</a> 
+    <a href="{{song.Video_Link}}" target="_blank" style="font-size:24px;color:black;"><img alt="Listen" src="/android_asset/www/img/Music-Player-icon.png"/></a> 
      <input type="hidden" value="{{song.id}}"  ng-model="data.songid" ng-init="data.songid=song.id" />
     <button class="button button-block button-calm" ng-click="votePerformance(data)">Vote on Performance</button>
     <label class="item item-input">

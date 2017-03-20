@@ -98,7 +98,7 @@ angular.module('starter.controllers', [])
 	$scope.data.bcsongid = $scope.songs[$stateParams.songId].Song_ID;
 	$scope.data.bcsingerid = $scope.songs[$stateParams.songId].Singer_Id; //use this for visitor
 })
-.controller('AccountCtrl', function($scope,$state,ContractService,SessionService) {
+.controller('AccountCtrl', function($scope,$ionicPopup,$state,ContractService,SessionService) {
 	$scope.data = {};
 	$scope.contracts = {};
 	$scope.getContracts=function(){
@@ -116,7 +116,7 @@ angular.module('starter.controllers', [])
 	};
 	$scope.getContracts();
 	
-}).controller('AccountDetailCtrl', function($scope, $state,$stateParams,ContractService,SessionService) {
+}).controller('AccountDetailCtrl', function($scope,$ionicPopup, $state,$stateParams,ContractService,SessionService) {
 	$scope.data = {};
 	$scope.contracts = SessionService.get("contracts");
 	$scope.contract = $scope.contracts[$stateParams.contractId];
@@ -147,11 +147,17 @@ angular.module('starter.controllers', [])
 		ContractService.respondToOffer($scope.data).success(function(data) {
 			//  $scope.songs =  angular.toJson(data);  
 			console.log("acceptcontract: contract response sent");
+			var alertPopup = $ionicPopup.alert({
+				title: 'Contract Response',
+				template: 'Your contract reponse has been recorded and submitted to the offeror.'
+			});
+			$state.go('singer.myaccount');
 		}).error(function(data) {
 			var alertPopup = $ionicPopup.alert({
-				title: 'acceptcontract: failed!',
-				template: 'Please try again!'
+				title: 'Contract Response',
+				template: 'System failure ... please try again. '
 			});
+			$state.go('singer.myaccount');
 		});
 	};
 	
@@ -173,7 +179,7 @@ angular.module('starter.controllers', [])
 			//  $scope.songs =  angular.toJson(data);  
 			$scope.songs =  JSON.parse(data);  
 			SessionService.store("songs",$scope.songs);
-			console.log("[visitor ctlr] getperformances: "+data)
+			console.log("[visitor ctlr] getperformances: "+data);
 		}).error(function(data) {
 			var alertPopup = $ionicPopup.alert({
 				title: 'Get performances failed!',
@@ -190,7 +196,7 @@ angular.module('starter.controllers', [])
 	$scope.getPerformances();
 
 })
-.controller('VisitorDetailCtrl', function($scope, $state,$stateParams, Songs,SingerService,SessionService) {
+.controller('VisitorDetailCtrl', function($scope,$ionicPopup, $state,$stateParams, Songs,SingerService,SessionService) {
 	$scope.data = {};
 	$scope.songs = SessionService.get("songs");
 	$scope.song = $scope.songs[$stateParams.songId];
@@ -205,19 +211,25 @@ angular.module('starter.controllers', [])
 //		$scope.song = $stateParams.songId;
 		SingerService.voteSong(data).success(function(data) {
 			//  $scope.songs =  angular.toJson(data);  
-			console.log("[visitor detail ctlr] vote performance: OK")
+			console.log("[visitor detail ctlr] vote performance: OK");
+			var alertPopup = $ionicPopup.alert({
+				title: 'Performance Vote',
+				template: 'Your vote has been recorded.'
+			});
+			$state.go('visitor.singerperformances');
 		}).error(function(data) {
 			var alertPopup = $ionicPopup.alert({
-				title: 'Vote performances failed!',
-				template: 'Please try again!'
+				title: 'Performance Vote',
+				template: 'Technical failure .. Please try again!'
 			});
+			$state.go('visitor.singerperformances');
 		});
 	};
 	$scope.refreshPerformances = function(){
 		//
 	}
 })
-.controller('EvtMgrCtrl', function($scope, $state, Songs,SingerService,SessionService) {
+.controller('EvtMgrCtrl', function($scope,$ionicPopup, $state, Songs,SingerService,SessionService) {
 	// With the new view caching in Ionic, Controllers are only called
 	// when they are recreated or on app start, instead of every page change.
 	// To listen for when this page is active (for example, to refresh data),
@@ -250,7 +262,7 @@ angular.module('starter.controllers', [])
 	}
 	$scope.getPerformances();
 })
-.controller('EvtMgrDetailCtrl', function($scope, $state, $stateParams, Songs,SingerService,SessionService) {
+.controller('EvtMgrDetailCtrl', function($scope,$ionicPopup, $state, $stateParams, Songs,SingerService,SessionService) {
 	$scope.data = {};
 	$scope.songs = SessionService.get("songs");
 	$scope.song = $scope.songs[$stateParams.songId];
@@ -264,12 +276,18 @@ angular.module('starter.controllers', [])
 //		$scope.song = $stateParams.songId;
 		SingerService.submitOffer(data).success(function(data) {
 			//  $scope.songs =  angular.toJson(data);  
-			console.log("[EvtMgr detail ctlr] submit offer: OK")
+			console.log("[EvtMgr detail ctlr] submit offer: OK");
+			var alertPopup = $ionicPopup.alert({
+				title: 'Contract Offer',
+				template: 'Your offer has been recorded and submitted for review.'
+			});
+			$state.go('evtmgr.singerperformances');
 		}).error(function(data) {
 			var alertPopup = $ionicPopup.alert({
-				title: 'submit offer failed!',
-				template: 'Please try again!'
+				title: 'Contract Offer',
+				template: 'Technical failure submitting contract.. please try again!'
 			});
+			$state.go('evtmgr.singerperformances');
 		});
 	};
 });

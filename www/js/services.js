@@ -327,7 +327,7 @@ angular.module('starter.services', ['ngCookies'])
               
               websocket.onopen = function(evt) {
               	var pagedata = that.data;
-              	var msgContractResponse = '{"type" : "acceptoffer","singer":"' +pagedata.singerid+'","contractid":"' +pagedata.contractid+'","accpeted":"'+pagedata.accepted+'","date":"'+pagedata.date+'","v":1}';
+              	var msgContractResponse = '{"type" : "acceptoffer","singer":"' +pagedata.singerid+'","contractid":"' +pagedata.contractid+'","accepted":"'+pagedata.accepted+'","date":"'+pagedata.date+'","v":1}';
                   console.log("ws opened "+msgContractResponse);
                   websocket.send(msgContractResponse);
                 };

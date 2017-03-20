@@ -2,8 +2,9 @@
 .pane {
     background-color: #164d56;
     background-image: url("../img/music-notes-bg-blue.jpg");
-    background-size: 100% 100%;
+    background-size: cover;
     background-repeat: no-repeat;
+    
     
 }
 #login {
