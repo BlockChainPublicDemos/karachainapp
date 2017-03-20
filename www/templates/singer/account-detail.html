@@ -9,7 +9,8 @@
         <ion-nav-back-button>Back</ion-nav-back-button>
 </ion-nav-bar>
   <ion-content class="padding">
-   <p>This is an offer to perform the associated song From: {{contract.Contract_date_from}}    To: {{contract.Contract_date_to}} at this institution</p>		    
+   <p>This is an offer to perform the associated song From: {{contract.Contract_date_from}}    To: {{contract.Contract_date_to}}</><p>
+   <p> Location: {{contract.Copyright_Institution_Name}}</p>		    
     <input type="hidden" value="{{contract.id}}"  ng-model="data.contractid" ng-init="data.contractid=contract.id" />
     <button class="button button-block button-calm" ng-click="acceptcontract('true')">Accept</button>
     <button class="button button-block button-calm" ng-click="acceptcontract('false')">Reject</button>
